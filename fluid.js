@@ -1,6 +1,6 @@
-const N = 200;
-const iter = 16;
-const SCALE = 4;
+const N = 100;
+const iter = 1;
+const SCALE = 6;
 let t = 0;
 let densitatea = 200;
 let fluid;
@@ -8,7 +8,7 @@ let fluid;
 function setup() {
     createCanvas(N * SCALE, N * SCALE);
     console.log("densitate:");
-    fluid = new Fluid(0.2, 0, 0.0000001);
+    fluid = new Fluid(2, 0.00000000001, 0.000001);
 }
 
 function draw() {
@@ -19,7 +19,7 @@ function draw() {
         }
     }
 
-    background(0);
+    background(0); 
     let cx = int(0.5 * width / SCALE);
     let cy = int(0.5 * height / SCALE);
     for (let i = -1; i <= 1; i++) {
@@ -103,13 +103,13 @@ class Fluid {
     }
 
     renderD() {
-        colorMode(HSB, 255);
+        colorMode(HSB, 250);
         for (let i = 0; i < N; i++) {
             for (let j = 0; j < N; j++) {
-                let x = i * SCALE;
-                let y = j * SCALE;
+                let x = i * SCALE / 2;
+                let y = j * SCALE / 2;
                 let d = this.density[this.IX(i, j)];
-                fill((d + 50) % 250, 0, 100);
+                fill((d + 50) % 25, 69, d);
                 noStroke();
                 square(x, y, SCALE);
             }
