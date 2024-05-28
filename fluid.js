@@ -1,14 +1,17 @@
-const N = 100;
-const iter = 1;
-const SCALE = 6;
+const N = 50;
+const iter = 4;
+const SCALE = 10;
 let t = 0;
-let densitatea = 200;
+let densitatea = 1000;
 let fluid;
+let offsetX, offsetY;
 
 function setup() {
     createCanvas(N * SCALE, N * SCALE);
-    console.log("densitate:");
+    console.log("densitate:" + densitatea);
     fluid = new Fluid(2, 0.00000000001, 0.000001);
+    offsetX = (width - N * SCALE) / 2;
+    offsetY = (height - N * SCALE) / 2;
 }
 
 function draw() {
@@ -40,10 +43,10 @@ function draw() {
 }
 
 function mouseDragged() {
-    fluid.addDensity(mouseX / SCALE, mouseY / SCALE, densitatea);
+    fluid.addDensity((mouseX-offsetX) / SCALE, (mouseY-offsetY) / SCALE, densitatea);
     let amtX = mouseX - pmouseX;
     let amtY = mouseY - pmouseY;
-    fluid.addVelocity(mouseX / SCALE, mouseY / SCALE, amtX, amtY);
+    fluid.addVelocity((mouseX-offsetX) / SCALE, (mouseY-offsetY) / SCALE, amtX, amtY);
 }
 
 class Fluid {
@@ -106,10 +109,10 @@ class Fluid {
         colorMode(HSB, 250);
         for (let i = 0; i < N; i++) {
             for (let j = 0; j < N; j++) {
-                let x = i * SCALE / 2;
-                let y = j * SCALE / 2;
+                let x = i * SCALE + offsetX;
+                let y = j * SCALE + offsetY;
                 let d = this.density[this.IX(i, j)];
-                fill((d + 50) % 25, 69, d);
+                fill((d + 50) % 25, 60, d);
                 noStroke();
                 square(x, y, SCALE);
             }
@@ -119,8 +122,8 @@ class Fluid {
     renderV() {
         for (let i = 0; i < N; i++) {
             for (let j = 0; j < N; j++) {
-                let x = i * SCALE;
-                let y = j * SCALE;
+                let x = i * SCALE + offsetX;
+                let y = j * SCALE + offsetY;
                 let vx = this.Vx[this.IX(i, j)];
                 let vy = this.Vy[this.IX(i, j)];
                 stroke(255);
